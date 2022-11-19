@@ -1,7 +1,7 @@
 import { ethers, network, waffle } from 'hardhat';
-import { deployContractFixtureInFork, deployContractFixture } from './shared/fixtures';
+import { deployContractFixture } from './shared/fixtures';
 import { Wallet } from '@ethersproject/wallet';
-import { deployContract, TestERC20, WETH9 } from '../typechain';
+import { MarketplaceTest, TestERC20 } from '../typechain';
 import { expect } from 'chai';
 import { DEADLINE } from './shared/consts';
 import { BigNumber as BN, BigNumberish, ContractTransaction } from 'ethers';
@@ -9,16 +9,12 @@ const hre = require('hardhat');
 
 const createFixtureLoader = waffle.createFixtureLoader;
 
-// const envConfig = require('dotenv').config();
-// const {
-//
-// } = envConfig.parsed || {};
-
 describe('Tests', () => {
     let wallet: Wallet, other: Wallet;
-    let swapToken: TestERC20;
-    let deployContract: contract;
-    let wnative: WETH9;
+    let marketplace: MarketplaceTest;
+    let nft: TestERC721;
+    let rewardToken: TestERC20;
+    let paymentToken: TestERC20;
 
     let loadFixture: ReturnType<typeof createFixtureLoader>;
 
@@ -28,13 +24,13 @@ describe('Tests', () => {
     });
 
     beforeEach('deploy fixture', async () => {
-        ({ swapToken, wnative } = await loadFixture(deployContractFixture));
+        ({ marketplace, nft, rewardToken, paymentToken } = await loadFixture(deployContractFixture));
     });
 
     describe('#Tests', () => {
         describe('#funcName', () => {
             it('Should do smth', async () => {
-
+                console.log(marketplace.address)
             });
         });
     });

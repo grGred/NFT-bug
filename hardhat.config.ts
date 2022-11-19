@@ -33,11 +33,11 @@ const DEFAULT_COMPILER_SETTINGS: SolcUserConfig = {
 module.exports = {
     networks: {
         hardhat: {
-            chainId: 137,
-            forking: {
-                url: `https://polygon-rpc.com`,
-                blockNumber: 34298636
-            },
+            // chainId: 137,
+            // forking: {
+            //     url: `https://polygon-rpc.com`,
+            //     blockNumber: 34298636
+            // },
             allowUnlimitedContractSize: true,
             loggingEnabled: false,
             accounts: {
@@ -364,7 +364,7 @@ module.exports = {
     contractSizer: {
         alphaSort: false,
         disambiguatePaths: true,
-        runOnCompile: false
+        runOnCompile: true
     },
     typechain: {
         outDir: 'typechain',

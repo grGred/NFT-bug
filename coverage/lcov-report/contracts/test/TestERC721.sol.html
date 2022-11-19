@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/test/TestERC721.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/test/</a> TestERC721.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>7/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">13.64% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">28.57% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">23.81% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>10/42</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+contract TestERC721 {
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+&nbsp;
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+&nbsp;
+    // Mapping from token ID to owner address
+    mapping(uint256 =&gt; address) private _owners;
+&nbsp;
+    // Mapping owner address to token count
+    mapping(address =&gt; uint256) private _balances;
+&nbsp;
+    // Mapping from token ID to approved address
+    mapping(uint256 =&gt; address) private _tokenApprovals;
+&nbsp;
+    constructor() {
+        _mint(msg.sender, 1);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function balanceOf(address owner) public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        require(owner != address(0), 'ERC721: address zero is not a valid owner')</span>;
+<span class="cstat-no" title="statement not covered" >        return _balances[owner];</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function ownerOf(uint256 tokenId) public view returns (address) {</span>
+<span class="cstat-no" title="statement not covered" >        address owner = _ownerOf(tokenId);</span>
+<span class="cstat-no" title="statement not covered" >        require(owner != address(0), 'ERC721: invalid token ID')</span>;
+<span class="cstat-no" title="statement not covered" >        return owner;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function approve(address to, uint256 tokenId) public {</span>
+<span class="cstat-no" title="statement not covered" >        address owner = ownerOf(tokenId);</span>
+<span class="cstat-no" title="statement not covered" >        require(to != owner, 'ERC721: approval to current owner')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require(msg.sender == owner, 'ERC721: approve caller is not token owner or approved for all')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _approve(to, tokenId)</span>;
+    }
+&nbsp;
+    /**
+     * @dev See {IERC721-getApproved}.
+     */
+<span class="fstat-no" title="function not covered" >    function getApproved(uint256 tokenId) public view returns (address) {</span>
+<span class="cstat-no" title="statement not covered" >        _requireMinted(tokenId)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return _tokenApprovals[tokenId];</span>
+    }
+&nbsp;
+    /**
+     * @dev See {IERC721-transferFrom}.
+     */
+<span class="fstat-no" title="function not covered" >    function transferFrom(address from, address to, uint256 tokenId) public {</span>
+<span class="cstat-no" title="statement not covered" >        _transfer(from, to, tokenId)</span>;
+    }
+&nbsp;
+    /**
+     * @dev Returns the owner of the `tokenId`. Does NOT revert if token doesn't exist
+     */
+    function _ownerOf(uint256 tokenId) internal view returns (address) {
+        return _owners[tokenId];
+    }
+&nbsp;
+    function _exists(uint256 tokenId) internal view returns (bool) {
+        return _ownerOf(tokenId) != address(0);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mint(address to, uint256 tokenId) external {</span>
+<span class="cstat-no" title="statement not covered" >        _mint(to, tokenId)</span>;
+    }
+&nbsp;
+    function _mint(address to, uint256 tokenId) internal {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(to != address(0), 'ERC721: mint to the zero address');
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(!_exists(tokenId), 'ERC721: token already minted');
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(!_exists(tokenId), 'ERC721: token already minted');
+&nbsp;
+        unchecked {
+            _balances[to] += 1;
+        }
+&nbsp;
+        _owners[tokenId] = to;
+&nbsp;
+        emit Transfer(address(0), to, tokenId);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _burn(uint256 tokenId) internal {</span>
+<span class="cstat-no" title="statement not covered" >        address owner = ownerOf(tokenId);</span>
+&nbsp;
+        // Update ownership in case tokenId was transferred by `_beforeTokenTransfer` hook
+        owner = ownerOf(tokenId);
+&nbsp;
+        // Clear approvals
+        delete _tokenApprovals[tokenId];
+&nbsp;
+        unchecked {
+            _balances[owner] -= 1;
+        }
+        delete _owners[tokenId];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit Transfer(owner, address(0), tokenId);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _transfer(address from, address to, uint256 tokenId) internal {</span>
+<span class="cstat-no" title="statement not covered" >        require(ownerOf(tokenId) == from, 'ERC721: transfer from incorrect owner')</span>;
+<span class="cstat-no" title="statement not covered" >        require(to != address(0), 'ERC721: transfer to the zero address')</span>;
+&nbsp;
+        // Check that tokenId was not transferred by `_beforeTokenTransfer` hook
+<span class="cstat-no" title="statement not covered" >        require(ownerOf(tokenId) == from, 'ERC721: transfer from incorrect owner')</span>;
+&nbsp;
+        // Clear approvals from the previous owner
+        delete _tokenApprovals[tokenId];
+&nbsp;
+        unchecked {
+            _balances[from] -= 1;
+            _balances[to] += 1;
+        }
+        _owners[tokenId] = to;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit Transfer(from, to, tokenId);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _approve(address to, uint256 tokenId) internal {</span>
+        _tokenApprovals[tokenId] = to;
+<span class="cstat-no" title="statement not covered" >        emit Approval(ownerOf(tokenId), to, tokenId);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _requireMinted(uint256 tokenId) internal view {</span>
+<span class="cstat-no" title="statement not covered" >        require(_exists(tokenId), 'ERC721: invalid token ID')</span>;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sat Nov 19 2022 15:52:43 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -58,7 +58,7 @@ contract Rewardable {
         uint256 daysDelta = (block.timestamp - reward.timestamp) / 1 days; // @audit negative?
         uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit small denominator?
         if (userReward > 0) { // @audit gas? !=
-            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle
+            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle // @audit Try catch for ext call?? what if reverts
         }
     }
 
