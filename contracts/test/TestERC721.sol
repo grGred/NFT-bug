@@ -3,21 +3,17 @@
 pragma solidity ^0.8.0;
 
 contract TestERC721 {
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    uint public totalSupply;
 
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
-
-    // Mapping from token ID to owner address
     mapping(uint256 => address) private _owners;
-
-    // Mapping owner address to token count
     mapping(address => uint256) private _balances;
-
-    // Mapping from token ID to approved address
     mapping(uint256 => address) private _tokenApprovals;
 
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+
     constructor() {
-        _mint(msg.sender, 1);
+        mint();
     }
 
     function balanceOf(address owner) public view returns (uint256) {
@@ -40,25 +36,11 @@ contract TestERC721 {
         _approve(to, tokenId);
     }
 
-    /**
-     * @dev See {IERC721-getApproved}.
-     */
-    function getApproved(uint256 tokenId) public view returns (address) {
-        _requireMinted(tokenId);
-
-        return _tokenApprovals[tokenId];
-    }
-
-    /**
-     * @dev See {IERC721-transferFrom}.
-     */
     function transferFrom(address from, address to, uint256 tokenId) public {
+        require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: caller is not token owner or approved");
         _transfer(from, to, tokenId);
     }
 
-    /**
-     * @dev Returns the owner of the `tokenId`. Does NOT revert if token doesn't exist
-     */
     function _ownerOf(uint256 tokenId) internal view returns (address) {
         return _owners[tokenId];
     }
@@ -67,8 +49,29 @@ contract TestERC721 {
         return _ownerOf(tokenId) != address(0);
     }
 
-    function mint(address to, uint256 tokenId) external {
-        _mint(to, tokenId);
+    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view returns (bool) {
+        address owner = ownerOf(tokenId);
+        return (spender == owner || getApproved(tokenId) == spender);
+    }
+
+    function getApproved(uint256 tokenId) public view returns (address) {
+        _requireMinted(tokenId);
+
+        return _tokenApprovals[tokenId];
+    }
+
+    function _requireMinted(uint256 tokenId) internal view {
+        require(_exists(tokenId), "ERC721: invalid token ID");
+    }
+
+    function mint() public {
+        _mint(msg.sender, totalSupply + 1);
+        totalSupply += 1;
+    }
+
+    function mintTo(address to) public {
+        _mint(to, totalSupply + 1);
+        totalSupply += 1;
     }
 
     function _mint(address to, uint256 tokenId) internal {
@@ -125,9 +128,5 @@ contract TestERC721 {
     function _approve(address to, uint256 tokenId) internal {
         _tokenApprovals[tokenId] = to;
         emit Approval(ownerOf(tokenId), to, tokenId);
-    }
-
-    function _requireMinted(uint256 tokenId) internal view {
-        require(_exists(tokenId), 'ERC721: invalid token ID');
     }
 }

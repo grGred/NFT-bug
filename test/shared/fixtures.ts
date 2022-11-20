@@ -29,8 +29,8 @@ export const deployContractFixture: Fixture<DeployContractFixture> = async funct
     const marketplaceFactory = await ethers.getContractFactory('MarketplaceTest');
     const marketplace = (await marketplaceFactory.deploy(
         nft.address,
-        rewardToken.address,
-        paymentToken.address
+        paymentToken.address,
+        rewardToken.address
     )) as MarketplaceTest;
 
     // part for seting storage

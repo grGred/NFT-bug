@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0; // @audit SWC-102
+pragma solidity ^0.8.0; // @audit SWC-102 0 8 4 min
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol"; // @audit 1 unused interface
@@ -25,7 +25,7 @@ contract Rewardable {
 
     uint256 constant public PCT_DENOMINATOR = 1000; // @audit private to save gas // cheaper to make smaller size?
 
-    uint256 private constant SEED = 335813536577843457; // @audit Everything that is inside a contract is visible to all external observers
+    uint256 private constant SEED = 335813536577843457; // @audit Everything that is inside a contract is visible to all external observers Swc136
     IERC20 internal PAYMENT_TOKEN;
     IRewardToken internal REWARD_TOKEN;
 
@@ -43,8 +43,8 @@ contract Rewardable {
         uint256 length = _rewards[user].length; // @audit gas optimize? 
         if (length == 0) revert NothingForClaim(); // @audit < can be cheaper? and too strict for buissnes logic
 
-        for (uint256 i = 0; i < length; i++) { // @audit gas
-            Reward storage reward = _rewards[user][length - i];
+        for (uint256 i = 0; i < length; i++) { // @audit gas // may be out of gas SWC-128
+            Reward storage reward = _rewards[user][length - i]; // @audit lenth - 1 ? memory?
 
             withdrawLastDeposit(user, reward.amount);
             payRewards(user, reward);
@@ -54,11 +54,11 @@ contract Rewardable {
     }
 
     function payRewards(address user, Reward memory reward) internal { // @audit or calldata better?
-        uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, SEED))); // @audit block.timestamp for random and  
+        uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, SEED))); // @audit block.timestamp for random and   SWC-120
         uint256 daysDelta = (block.timestamp - reward.timestamp) / 1 days; // @audit negative?
         uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit small denominator?
         if (userReward > 0) { // @audit gas? !=
-            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle // @audit Try catch for ext call?? what if reverts
+            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle // @audit Try catch for ext call?? what if reverts SWC-113
         }
     }
 
@@ -70,10 +70,10 @@ contract Rewardable {
     }
 
     function depositForRewards(address user, address payer, uint256 amount) internal { // @audit if to but with contracts rewards are not written to user?
-        PAYMENT_TOKEN.transferFrom(payer, address(this), amount); // @audit why not msg.sender?
-        _rewardsAmount += amount;
+        PAYMENT_TOKEN.transferFrom(payer, address(this), amount); // @audit-ok why not msg.sender?
+        _rewardsAmount += amount; // @audit won't work with deflitioanary tokens
 
-        _rewards[user].push(Reward(block.timestamp, amount)); // @audit why not to payer?
+        _rewards[user].push(Reward(block.timestamp, amount)); // @audit-ok why not to payer?
     }
 }
 
@@ -103,10 +103,10 @@ contract MarketplaceTest is Rewardable {
         NFT_TOKEN = IERC721(nftToken);
     }
 
-    function setForSale(uint256 tokenId, uint256 price, uint256 startTime) external {
+    function setForSale(uint256 tokenId, uint256 price, uint256 startTime) external { // @audit already on sale
         if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
         if (block.timestamp > startTime) revert InvalidSale();
-        if (items[tokenId].price == price) revert InvalidSale(); //@audit gas optimize // strange check
+        if (items[tokenId].price == price) revert InvalidSale(); //@audit gas optimize // setting for second time allows to set 0 price
 
         items[tokenId] = ItemSale(msg.sender, price, startTime);
     }
@@ -117,18 +117,18 @@ contract MarketplaceTest is Rewardable {
         delete items[tokenId];
     }
 
-    function postponeSale(uint256 tokenId, uint256 postponeSeconds) external {
+    function postponeSale(uint256 tokenId, uint256 postponeSeconds) external { // @audit should be more than 0
         if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
 
         ItemSale storage item = items[tokenId]; 
-        assembly { // TODO add tests
+        assembly { // @audit overflow
             let s := add(item.slot, 2)
             sstore(s, add(sload(s), postponeSeconds))
         }
         // assembly {
         //     mstore(0x00, tokenId)
         //     mstore(0x20, items.slot)
-        //     let s :=     add(keccak256(0x00, 0x40), 2)
+        //     let s := add(keccak256(0x00, 0x40), 2)
 
         //     sstore(s, add(sload(s), postponeSeconds))
         // }
@@ -138,14 +138,14 @@ contract MarketplaceTest is Rewardable {
         address owner = NFT_TOKEN.ownerOf(tokenId);
         if (owner == msg.sender) revert AlreadyOwner();
 
-        if (block.timestamp < items[tokenId].startTime) revert InvalidSale(); // @audit gas items
+        if (block.timestamp < items[tokenId].startTime) revert InvalidSale(); // @audit gas items // recommend to add new error
 
         if (items[tokenId].price == 0 ||
-            items[tokenId].seller == address(0) ||
-            items[tokenId].seller == msg.sender) revert InvalidSale(); // @audit last check is not needed?
+            items[tokenId].seller == address(0) || // @audit gas mload seller and price
+            items[tokenId].seller == msg.sender) revert InvalidSale(); // @audit last check is not needed
 
         depositForRewards(owner, msg.sender, items[tokenId].price);
         NFT_TOKEN.transferFrom(owner, msg.sender, tokenId);
-        delete items[tokenId]; // @audit test
+        delete items[tokenId]; // @audit-ok test
     }
 }

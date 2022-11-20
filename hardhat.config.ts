@@ -17,11 +17,11 @@ const DEFAULT_PRIVATE_KEY =
 const KAVA = process.env.KAVA_API_KEY;
 
 const DEFAULT_COMPILER_SETTINGS: SolcUserConfig = {
-    version: '0.8.16',
+    version: '0.8.17',
     settings: {
         optimizer: {
             enabled: true,
-            runs: 10_000
+            runs: 1000
         },
         metadata: {
             bytecodeHash: 'none'
