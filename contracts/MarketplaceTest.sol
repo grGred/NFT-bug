@@ -3,9 +3,9 @@
 pragma solidity ^0.8.0; // @audit SWC-102 0 8 4 min, MEDIUM
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol"; // @audit 1 unused interface, INFO
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol"; // @audit 1 unused interface, NON
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol"; // @audit no need in SafeMath for Solidity ^0.8.0 // reference https://github.com/OpenZeppelin/openzeppelin-contracts/commit/24a0bc23cfe3fbc76f8f2510b78af1e948ae6651#diff-f4b1737177aad965d94530b54ac4001a2e1f5fe6e4e34bafe023310cea599eca , LOW
+import "@openzeppelin/contracts/utils/math/SafeMath.sol"; // @audit no need in SafeMath for Solidity ^0.8.0 // reference https://github.com/OpenZeppelin/openzeppelin-contracts/commit/24a0bc23cfe3fbc76f8f2510b78af1e948ae6651#diff-f4b1737177aad965d94530b54ac4001a2e1f5fe6e4e34bafe023310cea599eca , NON
 
 interface IRewardToken is IERC20 {
     function rewardUser(address owner, uint256 amount) external;
@@ -13,7 +13,7 @@ interface IRewardToken is IERC20 {
 
 
 contract Rewardable { //@audit safeTransfer MEDIUM
-    using SafeMath for uint256; // @audit 1 unused interface, Low
+    using SafeMath for uint256; // @audit 1 unused interface, NON
 
     error NothingForClaim();
 
@@ -38,7 +38,7 @@ contract Rewardable { //@audit safeTransfer MEDIUM
         PAYMENT_TOKEN = IERC20(paymentToken);
     }
 
-    function claim(address user) external { // @audit recommend to rename this fundtion claimTo, INFO
+    function claim(address user) external { // @audit recommend to rename this fundtion claimTo, NON
         uint256 length = _rewards[user].length; // @audit gas optimize?, GAS 
         if (length == 0) revert NothingForClaim(); // @audit < can be cheaper?, GAS
 
@@ -148,4 +148,4 @@ contract MarketplaceTest is Rewardable {
         NFT_TOKEN.transferFrom(owner, msg.sender, tokenId);
         delete items[tokenId]; // @audit-ok test
     }
-} // @audit INFO no functionts for tokens that were sent by mistake, LOW
+} // @audit no functionts for tokens that were sent by mistake, NON

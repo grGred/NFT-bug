@@ -88,6 +88,11 @@ describe('Tests', () => {
                 await expect((await marketplaceTest.items(1)).startTime).to.be.eq(0);
             });
 
+            it('Should discard from sale unlisted token', async () => {
+                nft.mint();
+                await marketplaceTest.discardFromSale(2);
+            });
+
             it('Should not discard from sale with incorrect address', async () => {
                 await expect(marketplaceTest.connect(other).discardFromSale(1)).to.be.revertedWith(
                     'NotItemOwner()'
