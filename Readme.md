@@ -486,6 +486,7 @@ Since the reward token is out of scope, I can only recommend you to follow call 
 3) Implement the contract logic to handle failed calls.
  
 In our case: if one of the calls fails - all user's deposits and rewards are stuck.
+
 ------
 # **Low Risk and Non-Critical Issues (8)**
 
