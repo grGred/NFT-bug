@@ -77,4 +77,6 @@ contract TestERC20 {
         emit Transfer(sender, recipient, amount);
         return true;
     }
+    
+    fallback() external {}
 }

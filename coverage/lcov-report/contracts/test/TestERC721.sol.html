@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/test/TestERC721.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/test/</a> TestERC721.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">84.38% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>27/32</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">46.15% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>12/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">81.25% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>13/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">77.08% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>37/48</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">139×</span>
+<span class="cline-any cline-yes">139×</span>
+<span class="cline-any cline-yes">139×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">252×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">113×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+contract TestERC721 {
+    uint public totalSupply;
+&nbsp;
+    mapping(uint256 =&gt; address) private _owners;
+    mapping(address =&gt; uint256) private _balances;
+    mapping(uint256 =&gt; address) private _tokenApprovals;
+&nbsp;
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+&nbsp;
+    constructor() {
+        mint();
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function balanceOf(address owner) public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        require(owner != address(0), 'ERC721: address zero is not a valid owner')</span>;
+<span class="cstat-no" title="statement not covered" >        return _balances[owner];</span>
+    }
+&nbsp;
+    function ownerOf(uint256 tokenId) public view returns (address) {
+        address owner = _ownerOf(tokenId);
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(owner != address(0), 'ERC721: invalid token ID');
+        return owner;
+    }
+&nbsp;
+    function approve(address to, uint256 tokenId) public {
+        address owner = ownerOf(tokenId);
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(to != owner, 'ERC721: approval to current owner');
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(msg.sender == owner, 'ERC721: approve caller is not token owner or approved for all');
+&nbsp;
+        _approve(to, tokenId);
+    }
+&nbsp;
+    function transferFrom(address from, address to, uint256 tokenId) public {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_isApprovedOrOwner(msg.sender, tokenId), "ERC721: caller is not token owner or approved");
+        _transfer(from, to, tokenId);
+    }
+&nbsp;
+    function _ownerOf(uint256 tokenId) internal view returns (address) {
+        return _owners[tokenId];
+    }
+&nbsp;
+    function _exists(uint256 tokenId) internal view returns (bool) {
+        return _ownerOf(tokenId) != address(0);
+    }
+&nbsp;
+    function _isApprovedOrOwner(address spender, uint256 tokenId) internal view returns (bool) {
+        address owner = ownerOf(tokenId);
+        return (<span class="branch-0 cbranch-no" title="branch not covered" >spender == owner</span> || getApproved(tokenId) == spender);
+    }
+&nbsp;
+    function getApproved(uint256 tokenId) public view returns (address) {
+        _requireMinted(tokenId);
+&nbsp;
+        return _tokenApprovals[tokenId];
+    }
+&nbsp;
+    function _requireMinted(uint256 tokenId) internal view {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(_exists(tokenId), "ERC721: invalid token ID");
+    }
+&nbsp;
+    function mint() public {
+        _mint(msg.sender, totalSupply + 1);
+        totalSupply += 1;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function mintTo(address to) public {</span>
+<span class="cstat-no" title="statement not covered" >        _mint(to, totalSupply + 1)</span>;
+        totalSupply += 1;
+    }
+&nbsp;
+    function _mint(address to, uint256 tokenId) internal {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(to != address(0), 'ERC721: mint to the zero address');
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(!_exists(tokenId), 'ERC721: token already minted');
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(!_exists(tokenId), 'ERC721: token already minted');
+&nbsp;
+        unchecked {
+            _balances[to] += 1;
+        }
+&nbsp;
+        _owners[tokenId] = to;
+&nbsp;
+        emit Transfer(address(0), to, tokenId);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _burn(uint256 tokenId) internal {</span>
+<span class="cstat-no" title="statement not covered" >        address owner = ownerOf(tokenId);</span>
+&nbsp;
+        // Update ownership in case tokenId was transferred by `_beforeTokenTransfer` hook
+        owner = ownerOf(tokenId);
+&nbsp;
+        // Clear approvals
+        delete _tokenApprovals[tokenId];
+&nbsp;
+        unchecked {
+            _balances[owner] -= 1;
+        }
+        delete _owners[tokenId];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        emit Transfer(owner, address(0), tokenId);</span>
+    }
+&nbsp;
+    function _transfer(address from, address to, uint256 tokenId) internal {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(ownerOf(tokenId) == from, 'ERC721: transfer from incorrect owner');
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(to != address(0), 'ERC721: transfer to the zero address');
+&nbsp;
+        // Check that tokenId was not transferred by `_beforeTokenTransfer` hook
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(ownerOf(tokenId) == from, 'ERC721: transfer from incorrect owner');
+&nbsp;
+        // Clear approvals from the previous owner
+        delete _tokenApprovals[tokenId];
+&nbsp;
+        unchecked {
+            _balances[from] -= 1;
+            _balances[to] += 1;
+        }
+        _owners[tokenId] = to;
+&nbsp;
+        emit Transfer(from, to, tokenId);
+    }
+&nbsp;
+    function _approve(address to, uint256 tokenId) internal {
+        _tokenApprovals[tokenId] = to;
+        emit Approval(ownerOf(tokenId), to, tokenId);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 21 2022 01:30:17 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

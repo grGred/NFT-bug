@@ -8,4 +8,3 @@ node_modules
 .openzeppelin
 .DS_Store
 coverage.json
-coverage

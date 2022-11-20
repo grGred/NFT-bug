@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/MarketplaceTest.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">contracts/</a> MarketplaceTest.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>27/27</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>21/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>10/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>37/37</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">26×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+pragma solidity ^0.8.0; // @audit SWC-102 0 8 4 min, MEDIUM
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol"; // @audit 1 unused interface, NON
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol"; // @audit no need in SafeMath for Solidity ^0.8.0 // reference https://github.com/OpenZeppelin/openzeppelin-contracts/commit/24a0bc23cfe3fbc76f8f2510b78af1e948ae6651#diff-f4b1737177aad965d94530b54ac4001a2e1f5fe6e4e34bafe023310cea599eca , NON
+&nbsp;
+interface IRewardToken is IERC20 {
+    function rewardUser(address owner, uint256 amount) external;
+}
+&nbsp;
+&nbsp;
+contract Rewardable { //@audit safeTransfer MEDIUM
+    using SafeMath for uint256; // @audit 1 unused interface, NON
+&nbsp;
+    error NothingForClaim();
+&nbsp;
+    struct Reward {
+        uint256 timestamp; // @audit make smaller to save gas? uint32, GAS
+        uint256 amount;
+    }
+&nbsp;
+    uint256 constant public PCT_DENOMINATOR = 1000; // @audit private to save gas, GAS
+&nbsp;
+    uint256 private constant SEED = 335813536577843457; // @audit Everything that is inside a contract is visible to all external observers Swc136, CRIT
+    IERC20 internal PAYMENT_TOKEN;
+    IRewardToken internal REWARD_TOKEN;
+&nbsp;
+    uint256 public _rewardsAmount;
+&nbsp;
+    // user =&gt; reward
+    mapping(address =&gt; Reward[]) internal _rewards;
+&nbsp;
+    constructor(address rewardToken, address paymentToken) {
+        REWARD_TOKEN = IRewardToken(rewardToken);
+        PAYMENT_TOKEN = IERC20(paymentToken);
+    }
+&nbsp;
+    function claim(address user) external { // @audit recommend to rename this fundtion claimTo, NON
+        uint256 length = _rewards[user].length; // @audit gas optimize?, GAS 
+        if (length == 0) revert NothingForClaim(); // @audit &lt; can be cheaper?, GAS
+&nbsp;
+        for (uint256 i = 0; i &lt; length; i++) { // @audit gas // may be out of gas SWC-128, MEDIUM
+            Reward storage reward = _rewards[user][length - 1 - i]; // @audit lenth - 1, recommended to change to i for gas + memory? CANNOT TEST WITH THIS BUG, CRIT
+            // @audit pop all the data about pending reward, CRIT
+            payRewards(user, reward);
+            withdrawLastDeposit(user, reward.amount);
+        }
+&nbsp;
+        delete _rewards[user]; // @audit-ok does it deletes - yes
+    }
+&nbsp;
+    function payRewards(address user, Reward memory reward) internal { // @audit-ok or calldata better - no, GAS
+        uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, SEED))); // @audit block.timestamp for random and SWC-120, CRIT
+        uint256 daysDelta = (block.timestamp - reward.timestamp) / 1 days; // @audit div 0, CRIT
+&nbsp;
+        uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit div 0, CRIT
+        if (userReward &gt; 0) { // @audit-ok gas !=
+            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle GAS // @audit Try catch for ext call?? what if reverts SWC-113, MEDIUM
+        }
+    }
+&nbsp;
+    function withdrawLastDeposit(address user, uint256 amount) internal {
+        _rewards[user].pop();
+&nbsp;
+        _rewardsAmount -= amount; // @audit-ok if no rewards -&gt; can't receive?
+        PAYMENT_TOKEN.transfer(user, amount); // @audit transfer in for cycle, GAS
+    }
+&nbsp;
+    function depositForRewards(address user, address payer, uint256 amount) internal { // @audit-ok if buy with contract rewards are not written to user?
+        PAYMENT_TOKEN.transferFrom(payer, address(this), amount); // @audit-ok why not msg.sender?
+        _rewardsAmount += amount; // @audit won't work with deflitioanary tokens, MEDIUM
+&nbsp;
+        _rewards[user].push(Reward(block.timestamp, amount)); // @audit-ok why not to payer?
+    }
+}
+&nbsp;
+&nbsp;
+contract MarketplaceTest is Rewardable {
+    error AlreadyOwner();
+    error NotItemOwner();
+    error InvalidSale();
+    error AlreadyOnSale(); // @audit not used, MEDUIM
+    // @audit no events, See similar High-severity H03 finding OpenZeppelin’s Audit of Audius (https://blog.openzeppelin.com/audius-contracts-audit/#high) and Medium-severity M01 finding OpenZeppelin’s Audit of UMA Phase 4 (https://blog.openzeppelin.com/uma-audit-phase-4/) LOW
+    struct ItemSale {
+        address seller;
+        uint256 price;
+        uint256 startTime; // @audit to uint32 and higher, GAS
+    }
+&nbsp;
+    IERC721 internal NFT_TOKEN;
+&nbsp;
+    // nft tokenId =&gt; item
+    mapping(uint256 =&gt; ItemSale) public items;
+&nbsp;
+    constructor(
+        address nftToken,
+        address paymentToken,
+        address rewardToken
+    ) Rewardable(rewardToken, paymentToken) {
+        NFT_TOKEN = IERC721(nftToken);
+    }
+&nbsp;
+    function setForSale(uint256 tokenId, uint256 price, uint256 startTime) external { // @audit already on sale, MEDIUM
+        if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
+        if (block.timestamp &gt; startTime) revert InvalidSale();
+        if (items[tokenId].price == price) revert InvalidSale(); //@audit gas optimize // setting for second time allows to set 0 price, GAS, MEDIUM
+&nbsp;
+        items[tokenId] = ItemSale(msg.sender, price, startTime);
+    }
+&nbsp;
+    function discardFromSale(uint256 tokenId) external { // @audit check if on sale, LOW
+        if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
+&nbsp;
+        delete items[tokenId];
+    }
+&nbsp;
+    function postponeSale(uint256 tokenId, uint256 postponeSeconds) external { // @audit should be more than 0, LOW
+        if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
+&nbsp;
+        ItemSale storage item = items[tokenId]; 
+        assembly { // @audit overflow, CRIT
+            let s := add(item.slot, 2)
+            sstore(s, add(sload(s), postponeSeconds))
+        }
+        // assembly { // @audit gas
+        //     mstore(0x00, tokenId)
+        //     mstore(0x20, items.slot)
+        //     let s := add(keccak256(0x00, 0x40), 2)
+&nbsp;
+        //     sstore(s, add(sload(s), postponeSeconds))
+        // }
+    }
+&nbsp;
+    function buy(uint256 tokenId) external {
+        address owner = NFT_TOKEN.ownerOf(tokenId);
+        if (owner == msg.sender) revert AlreadyOwner();
+&nbsp;
+        if (block.timestamp &lt; items[tokenId].startTime) revert InvalidSale(); // @audit gas items, GAS // recommend to add new error, LOW
+&nbsp;
+        if (items[tokenId].price == 0 ||
+<span class="branch-1 cbranch-no" title="branch not covered" >            items[tokenId].seller == address(0)</span> || // @audit gas mload seller and price, GAS
+            items[tokenId].seller == msg.sender) revert InvalidSale(); // @audit last check is not needed, LOW
+&nbsp;
+        depositForRewards(owner, msg.sender, items[tokenId].price);
+        NFT_TOKEN.transferFrom(owner, msg.sender, tokenId);
+        delete items[tokenId]; // @audit-ok test
+    }
+} // @audit no functionts for tokens that were sent by mistake, NON</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 21 2022 01:30:17 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

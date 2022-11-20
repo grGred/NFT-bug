@@ -17,11 +17,11 @@ const DEFAULT_PRIVATE_KEY =
 const KAVA = process.env.KAVA_API_KEY;
 
 const DEFAULT_COMPILER_SETTINGS: SolcUserConfig = {
-    version: '0.8.16',
+    version: '0.8.17',
     settings: {
         optimizer: {
             enabled: true,
-            runs: 10_000
+            runs: 1000
         },
         metadata: {
             bytecodeHash: 'none'
@@ -33,11 +33,11 @@ const DEFAULT_COMPILER_SETTINGS: SolcUserConfig = {
 module.exports = {
     networks: {
         hardhat: {
-            chainId: 137,
-            forking: {
-                url: `https://polygon-rpc.com`,
-                blockNumber: 34298636
-            },
+            // chainId: 137,
+            // forking: {
+            //     url: `https://polygon-rpc.com`,
+            //     blockNumber: 34298636
+            // },
             allowUnlimitedContractSize: true,
             loggingEnabled: false,
             accounts: {
@@ -364,7 +364,7 @@ module.exports = {
     contractSizer: {
         alphaSort: false,
         disambiguatePaths: true,
-        runOnCompile: false
+        runOnCompile: true
     },
     typechain: {
         outDir: 'typechain',

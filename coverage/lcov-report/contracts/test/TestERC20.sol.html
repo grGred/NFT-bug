@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/test/TestERC20.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/test/</a> TestERC20.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.45% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>8/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">87.5% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>28/32</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: MIT
+&nbsp;
+pragma solidity ^0.8.0;
+&nbsp;
+contract TestERC20 {
+    mapping(address =&gt; uint256) public balanceOf;
+    mapping(address =&gt; mapping(address =&gt; uint256)) public allowance;
+&nbsp;
+    event Transfer(address indexed from, address indexed to, uint256 value);
+&nbsp;
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+&nbsp;
+    constructor() {
+        mint(msg.sender, 100000000000 ether);
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function decimals() external pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return 18;</span>
+    }
+&nbsp;
+    function mint(address to, uint256 amount) public {
+        uint256 balanceNext = balanceOf[to] + amount;
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(balanceNext &gt;= amount, 'overflow balance');
+        balanceOf[to] = balanceNext;
+    }
+&nbsp;
+    function transfer(address recipient, uint256 amount) external returns (bool) {
+        uint256 balanceBefore = balanceOf[msg.sender];
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(balanceBefore &gt;= amount, 'insufficient balance');
+        balanceOf[msg.sender] = balanceBefore - amount;
+&nbsp;
+        uint256 balanceRecipient = balanceOf[recipient];
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(balanceRecipient + amount &gt;= balanceRecipient, 'recipient balance overflow');
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!isDeflationary) {
+            balanceOf[recipient] = balanceRecipient + amount;
+        } else {
+            balanceOf[recipient] = balanceRecipient + (amount - (amount * 5) / 100);
+        }
+&nbsp;
+        emit Transfer(msg.sender, recipient, amount);
+        return true;
+    }
+&nbsp;
+    function approve(address spender, uint256 amount) external returns (bool) {
+        allowance[msg.sender][spender] = amount;
+        emit Approval(msg.sender, spender, amount);
+        return true;
+    }
+&nbsp;
+    bool isDeflationary = false;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function setDefl() external {</span>
+        isDeflationary = true;
+    }
+&nbsp;
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool) {
+        uint256 allowanceBefore = allowance[sender][msg.sender];
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(allowanceBefore &gt;= amount, 'allowance insufficient');
+&nbsp;
+        allowance[sender][msg.sender] = allowanceBefore - amount;
+&nbsp;
+        uint256 balanceRecipient = balanceOf[recipient];
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(balanceRecipient + amount &gt;= balanceRecipient, 'overflow balance recipient');
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!isDeflationary) {
+            balanceOf[recipient] = balanceRecipient + amount;
+        } else {
+            balanceOf[recipient] = balanceRecipient + (amount - (amount * 5) / 100);
+        }
+        uint256 balanceSender = balanceOf[sender];
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(balanceSender &gt;= amount, 'underflow balance sender');
+        balanceOf[sender] = balanceSender - amount;
+&nbsp;
+        emit Transfer(sender, recipient, amount);
+        return true;
+    }
+    
+    fallback() external {}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Nov 21 2022 01:30:17 GMT+0300 (Москва, стандартное время)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
