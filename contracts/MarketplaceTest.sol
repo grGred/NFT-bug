@@ -42,7 +42,7 @@ contract Rewardable { //@audit safeTransfer MEDIUM
         uint256 length = _rewards[user].length; // @audit gas optimize?, GAS 
         if (length == 0) revert NothingForClaim(); // @audit < can be cheaper?, GAS
 
-        for (uint256 i = 0; i < length; i++) { // @audit gas // may be out of gas SWC-128, CRIT
+        for (uint256 i = 0; i < length; i++) { // @audit gas // may be out of gas SWC-128, MEDIUM
             Reward storage reward = _rewards[user][length - 1 - i]; // @audit lenth - 1, recommended to change to i for gas + memory? CANNOT TEST WITH THIS BUG, CRIT
             // @audit pop all the data about pending reward, CRIT
             payRewards(user, reward);
@@ -54,9 +54,9 @@ contract Rewardable { //@audit safeTransfer MEDIUM
 
     function payRewards(address user, Reward memory reward) internal { // @audit or calldata better?, GAS
         uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, SEED))); // @audit block.timestamp for random and SWC-120, CRIT
-        uint256 daysDelta = (block.timestamp - reward.timestamp) / 1 days; // @audit div 0, MEDIUM
+        uint256 daysDelta = (block.timestamp - reward.timestamp) / 1 days; // @audit div 0, CRIT
 
-        uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit div 0, MEDIUM
+        uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit div 0, CRIT
         if (userReward > 0) { // @audit gas? !=
             REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle // @audit Try catch for ext call?? what if reverts SWC-113
         }
@@ -71,7 +71,7 @@ contract Rewardable { //@audit safeTransfer MEDIUM
 
     function depositForRewards(address user, address payer, uint256 amount) internal { // @audit-ok if buy with contract rewards are not written to user?
         PAYMENT_TOKEN.transferFrom(payer, address(this), amount); // @audit-ok why not msg.sender?
-        _rewardsAmount += amount; // @audit won't work with deflitioanary tokens, LOW
+        _rewardsAmount += amount; // @audit won't work with deflitioanary tokens, MEDIUM
 
         _rewards[user].push(Reward(block.timestamp, amount)); // @audit-ok why not to payer?
     }
@@ -121,7 +121,7 @@ contract MarketplaceTest is Rewardable {
         if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
 
         ItemSale storage item = items[tokenId]; 
-        assembly { // @audit overflow, HIGH
+        assembly { // @audit overflow, CRIT
             let s := add(item.slot, 2)
             sstore(s, add(sload(s), postponeSeconds))
         }
