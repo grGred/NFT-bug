@@ -58,7 +58,7 @@ contract Rewardable { //@audit safeTransfer MEDIUM
 
         uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit div 0, CRIT
         if (userReward > 0) { // @audit gas? !=
-            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle // @audit Try catch for ext call?? what if reverts SWC-113
+            REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle GAS // @audit Try catch for ext call?? what if reverts SWC-113, MEDIUM
         }
     }
 
@@ -82,14 +82,14 @@ contract MarketplaceTest is Rewardable {
     error AlreadyOwner();
     error NotItemOwner();
     error InvalidSale();
-    error AlreadyOnSale(); // @audit not used
+    error AlreadyOnSale(); // @audit not used, MEDUIM
     // @audit no events, See similar High-severity H03 finding OpenZeppelin’s Audit of Audius (https://blog.openzeppelin.com/audius-contracts-audit/#high) and Medium-severity M01 finding OpenZeppelin’s Audit of UMA Phase 4 (https://blog.openzeppelin.com/uma-audit-phase-4/) LOW
     struct ItemSale {
         address seller;
         uint256 price;
         uint256 startTime; // @audit to uint32 and higher, GAS
     }
-    // @audit order of params?, GAS
+
     IERC721 internal NFT_TOKEN;
 
     // nft tokenId => item
