@@ -66,7 +66,7 @@ File: contracts/Marketplace.sol
 ### **Impact**
 
  
-Use of `block.timestamp` is insecure, as a miner can choose to provide any timestamp within a few seconds and still get his block accepted by others.
+Use of `block.timestamp` is insecure, as a miner can choose to provide any timestamp within a few seconds and still get his block accepted by others. Any user can brute force pre-computing block.timestamps and send claim transactions with big rewards.  
 
 
 ### **Proof of Concept**
@@ -95,7 +95,7 @@ contracts/Marketplace.sol
  
 ### **Impact**
  
-For loop trys to access an out-of-bounds index.
+For loop tries to access an out-of-bounds index.
  
 ### **Proof of Concept**
  
