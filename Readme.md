@@ -527,6 +527,7 @@ Any existing ERC721 token can be successfully discarded from the sale, while not
 ### **Recommended Mitigation Steps**
 
 Add `NotSettedYet` check in `discardFromSale` function.
+
 ------
  
 ### **[L-03] Sale can be postponed on 0 seconds**
