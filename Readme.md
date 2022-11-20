@@ -42,6 +42,7 @@ The attacker accesses the storage of your contract using:
 ```Python
 web3.eth.getStorageAt("0x561...", 2)
 ```
+
 See: [SWC-136](https://swcregistry.io/docs/SWC-136)
 
 ### **Recommended Mitigation Steps**
@@ -73,6 +74,7 @@ Use of `block.timestamp` is insecure, as a miner can choose to provide any times
 
 1) The attacker accesses the storage of your contract and gets the SEED.
 2) The attacker copys the SEED and pre-compute the `keccak256` hash via his/her contract with different timestamps in order to find the most profitable and then send the result to Marketplace contract.
+
 See: [SWC-120](https://swcregistry.io/docs/SWC-120)
 
 
@@ -113,7 +115,7 @@ contracts/Marketplace.sol
 
 ------
 
-### **[H-04] Poping all the data about reward before sending it**
+### **[H-04] Popping all the data about reward before sending it**
 
 ```Solidity
 contracts/Marketplace.sol
@@ -251,7 +253,7 @@ You can always add 1 day to `daysDelta`, or create if statement in which you wil
 
 ------
 
-# **Medium Risk Findings (9)**
+# **Medium Risk Findings (6)**
 
 ### **[M-01] DoS With Block Gas Limit**
 
@@ -277,6 +279,7 @@ Loops that do not have a fixed number of iterations, for example, loops that dep
 ### **Proof of Concept**
 
 For loop in `claim` function is a gas heavy function with externall calls, writing to storage and transfers of tokens. If the user creates a lot of deposits, user won't be able to withdraw them because of the gas limitations, funds will be lost.
+
 See: 
 * [SWC-128](https://swcregistry.io/docs/SWC-128)
 *  [Solidity Doc -> gas-limit-and-loops](https://docs.soliditylang.org/en/v0.4.24/security-considerations.html#gas-limit-and-loops)
@@ -381,7 +384,6 @@ Consider supporting deflationary / rebasing / etc tokens by extra checking the b
 
 ------
 
-
 ### **[M-06] Set For Sale missing additional check**
 
 ```Solidity
@@ -403,7 +405,110 @@ Consider supporting deflationary / rebasing / etc tokens by extra checking the b
 
 ------
 
+### **[M-07] NFT can be set for sale with 0 price and can't be sold**
+
+```Solidity
+contracts/Marketplace.sol
+106:     function setForSale(uint256 tokenId, uint256 price, uint256 startTime) external {
+107:         if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
+108:         if (block.timestamp > startTime) revert InvalidSale();
+109:         if (items[tokenId].price == price) revert InvalidSale();
+110: 
+111:         items[tokenId] = ItemSale(msg.sender, price, startTime);
+112:     }
+...
+contracts/Marketplace.sol
+130:     function buy(uint256 tokenId) external {
+131:         address owner = NFT_TOKEN.ownerOf(tokenId);
+132:         if (owner == msg.sender) revert AlreadyOwner();
+133: 
+134:         if (block.timestamp < items[tokenId].startTime) revert InvalidSale();
+135: 
+136:         if (items[tokenId].price == 0 ||
+```
+
+### **Impact**
+
+Since `setForSale` is missing the check `AlreadyOnSale`, user can set token for sale with 0 price. This token can't be bought.
+
+### **Proof of Concept**
+
+```Typescript
+test/marketplace.spec.ts
+62:             it('Should set for sale with 0 price for token after setting for second time', async () => {
+63:                 let { currentTimestamp } = await getBlockData();
+64:                 await marketplaceTest.setForSale(1, 1, BN.from(currentTimestamp + 100));
+65:                 await marketplaceTest.setForSale(1, 0, BN.from(currentTimestamp + 100));
+66: 
+67:                 await expect((await marketplaceTest.items(1)).seller).to.be.eq(wallet.address);
+68:                 await expect((await marketplaceTest.items(1)).price).to.be.eq(0);
+69:                 await expect((await marketplaceTest.items(1)).startTime).to.be.eq(
+70:                     currentTimestamp + 100
+71:                 );
+72:             });
+```
 
 
+### **Recommended Mitigation Steps**
+
+Add check `AlreadyOnSale` in `setForSale`, or add:
+```Solidity
+109:         if (items[tokenId].price == price || price == 0) revert InvalidSale();
+```
+
+------
+
+### **[M-07] NFT can be set for sale with 0 price and can't be sold**
+
+```Solidity
+contracts/Marketplace.sol
+106:     function setForSale(uint256 tokenId, uint256 price, uint256 startTime) external {
+107:         if (NFT_TOKEN.ownerOf(tokenId) != msg.sender) revert NotItemOwner();
+108:         if (block.timestamp > startTime) revert InvalidSale();
+109:         if (items[tokenId].price == price) revert InvalidSale();
+110: 
+111:         items[tokenId] = ItemSale(msg.sender, price, startTime);
+112:     }
+...
+contracts/Marketplace.sol
+130:     function buy(uint256 tokenId) external {
+131:         address owner = NFT_TOKEN.ownerOf(tokenId);
+132:         if (owner == msg.sender) revert AlreadyOwner();
+133: 
+134:         if (block.timestamp < items[tokenId].startTime) revert InvalidSale();
+135: 
+136:         if (items[tokenId].price == 0 ||
+```
+
+### **Impact**
+
+Since `setForSale` is missing the check `AlreadyOnSale`, user can set token for sale with 0 price. This token can't be bought.
+
+### **Proof of Concept**
+
+```Typescript
+test/marketplace.spec.ts
+62:             it('Should set for sale with 0 price for token after setting for second time', async () => {
+63:                 let { currentTimestamp } = await getBlockData();
+64:                 await marketplaceTest.setForSale(1, 1, BN.from(currentTimestamp + 100));
+65:                 await marketplaceTest.setForSale(1, 0, BN.from(currentTimestamp + 100));
+66: 
+67:                 await expect((await marketplaceTest.items(1)).seller).to.be.eq(wallet.address);
+68:                 await expect((await marketplaceTest.items(1)).price).to.be.eq(0);
+69:                 await expect((await marketplaceTest.items(1)).startTime).to.be.eq(
+70:                     currentTimestamp + 100
+71:                 );
+72:             });
+```
+
+
+### **Recommended Mitigation Steps**
+
+Add check `AlreadyOnSale` in `setForSale`, or add:
+```Solidity
+109:         if (items[tokenId].price == price || price == 0) revert InvalidSale();
+```
+
+------
 
 
