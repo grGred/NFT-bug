@@ -1,11 +1,12 @@
 import { Fixture } from 'ethereum-waffle';
 import { ethers, network } from 'hardhat';
-import { MarketplaceTest } from '../../typechain';
+import { MarketplaceTest, Marketplace } from '../../typechain';
 import { TestERC20, TestERC721 } from '../../typechain';
 import { expect } from 'chai';
 
 interface DeployContractFixture {
-    marketplace: MarketplaceTest;
+    marketplace: Marketplace;
+    marketplaceTest: MarketplaceTest;
     nft: TestERC721;
     rewardToken: TestERC20;
     paymentToken: TestERC20;
@@ -26,12 +27,19 @@ export const deployContractFixture: Fixture<DeployContractFixture> = async funct
     let nft = (await NFTFactory.deploy()) as TestERC721;
     nft = nft.connect(wallets[0]);
 
-    const marketplaceFactory = await ethers.getContractFactory('MarketplaceTest');
-    const marketplace = (await marketplaceFactory.deploy(
+    const marketplaceTestFactory = await ethers.getContractFactory('MarketplaceTest');
+    const marketplaceTest = (await marketplaceTestFactory.deploy(
         nft.address,
         paymentToken.address,
         rewardToken.address
     )) as MarketplaceTest;
+
+    const marketplaceFactory = await ethers.getContractFactory('Marketplace');
+    const marketplace = (await marketplaceFactory.deploy(
+        nft.address,
+        paymentToken.address,
+        rewardToken.address
+    )) as Marketplace;
 
     // part for seting storage
     const abiCoder = ethers.utils.defaultAbiCoder;
@@ -67,6 +75,7 @@ export const deployContractFixture: Fixture<DeployContractFixture> = async funct
 
     return {
         marketplace,
+        marketplaceTest,
         nft,
         rewardToken,
         paymentToken
