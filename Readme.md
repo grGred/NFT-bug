@@ -7,7 +7,7 @@ The code under review can be found within the NFT-bug repository, and is compose
 ### **Summary**
  
 A total of 13 unique vulnerabilities. Of these vulnerabilities, 5 received a risk rating in the category of HIGH severity and 8 received a risk rating in the category of MEDIUM severity.
-Additionally, I included 8 reports detailing issues with a risk rating of LOW severity or non-critical.
+Additionally, I included 8 reports detailing issues with a risk rating of LOW severity or non-critical. There were also 5 reports recommending gas optimizations.
 ### **Classification of Issues**
  
 High-level considerations for vulnerabilities span the following key areas when conducting assessments:
@@ -689,7 +689,237 @@ See: https://github.com/OpenZeppelin/openzeppelin-contracts/commit/24a0bc23cfe3f
 
 Remove unused import from line 8 and 17.
  
+----
 
+# **Gas optimizations (5)**
 
+### **[G-01] Optimize assembly code**
 
+```Solidity
+contracts/Marketplace.sol
+123:         ItemSale storage item = items[tokenId]; 
+124:         assembly {
+125:             let s := add(item.slot, 2)
+126:             sstore(s, add(sload(s), postponeSeconds))
+127:         }
+```
 
+Can be optimized by wrapping in assembly:
+
+```Solidity
+        assembly {
+            mstore(0x00, tokenId)
+            mstore(0x20, items.slot)
+            let s := add(keccak256(0x00, 0x40), 2)
+
+            sstore(s, add(sload(s), postponeSeconds))
+        }
+```
+
+Gas savings: about 10 gas.
+
+----
+
+### **[G-02] Declare constant as private variable**
+
+```Solidity
+contracts/Marketplace.sol
+26: uint256 constant public PCT_DENOMINATOR = 1000;
+```
+
+Can be declared as a private variable to save bytecode. Compilator won't create view function for the access, while this parameter will be still available for reading through storage.
+
+```Solidity
+26: uint256 constant private PCT_DENOMINATOR = 1000;
+```
+
+----
+
+### **[G-03] Caching storage variables in memory to save gas**
+
+```Solidity
+contracts/Marketplace.sol
+47: Reward storage reward = _rewards[user][length - i];
+```
+
+Anytime you are reading from storage more than once, it is cheaper in gas cost to cache the variable in memory: a SLOAD cost 100gas, while MLOAD and MSTORE cost 3 gas.
+
+E.g.:
+```Solidity
+Reward memory reward = _rewards[user][length - i];
+```
+And:
+```Solidity
+    function buy(uint256 tokenId) external {
+        address owner = NFT_TOKEN.ownerOf(tokenId);
+        if (owner == msg.sender) revert AlreadyOwner();
+        ItemSale memory item = items[tokenId]; // copy to memory
+        if (block.timestamp < item.startTime) revert InvalidSale();
+
+        if (item.price == 0 ||
+            item.seller == address(0) ||
+            item.seller == msg.sender) revert InvalidSale();
+            
+        depositForRewards(owner, msg.sender, item.price);
+        NFT_TOKEN.transferFrom(owner, msg.sender, tokenId);
+        delete items[tokenId]; // delete actual storage slot
+    }
+```
+
+Gas savings: at least 97 gas.
+
+----
+
+### **[G-04] Taking off externall calls from for cycle**
+
+```Solidity
+contracts/Marketplace.sol
+60:         if (userReward > 0) {
+61:             REWARD_TOKEN.rewardUser(user, userReward);
+62:         }
+...
+contracts/Marketplace.sol
+68:         _rewardsAmount -= amount;
+69:         PAYMENT_TOKEN.transfer(user, amount);
+```
+
+It's recommened to make `withdrawLastDeposit` and `payRewards` return the value that should be sent, write it to memory variable, and after the for loop execute all externall calls.
+
+Gas savings: >20000 gas.
+
+----
+
+### **[G-05] improve for loop**
+
+```Solidity
+contracts/Marketplace.sol
+46: for (uint256 i = 0; i < length; i++) {
+```
+
+* **Caching the length in for loops**
+
+Reading array length at each iteration of the loop takes 6 gas (3 for `mload` and 3 to place `memory_offset` ) in the stack.
+Caching the array length in the stack saves around 3 gas per iteration.
+I suggest storing the array’s length in a variable before the for-loop.
+
+Example of an array arr and the following loop:
+```Solidity
+for (uint i = 0; i < length; i++) {
+    // do something that doesn't change the value of i
+}
+``` 
+In the above case, the solidity compiler will always read the length of the array during each iteration. 
+1. If it is a storage array, this is an extra `sload` operation (100 additional extra gas ([EIP-2929](https://eips.ethereum.org/EIPS/eip-2929)) for each iteration except for the first),
+2. If it is a `memory` array, this is an extra `mload` operation (3 additional gas for each iteration except for the first),
+3. If it is a `calldata` array, this is an extra `calldataload` operation (3 additional gas for each iteration except for the first)
+This extra costs can be avoided by caching the array length (in stack):
+
+```Solidity
+uint length = arr.length;
+for (uint i = 0; i < length; i++) {
+    // do something that doesn't change arr.length
+}
+```
+In the above example, the `sload` or `mload` or `calldataload` operation is only called once and subsequently replaced by a cheap `dupN` instruction. Even though `mload`, `calldataload` and `dupN` have the same gas cost, `mload` and `calldataload` needs an additional `dupN` to put the offset in the stack, i.e., an extra 3 gas.
+
+This optimization is especially important if it is a storage array or if it is a lengthy for loop.
+
+* **The increment in for loop post condition can be made unchecked**
+
+In Solidity 0.8+, there’s a default overflow check on unsigned integers. It’s possible to uncheck this in for-loops and save some gas at each iteration, but at the cost of some code readability, as this uncheck [cannot be made inline](https://github.com/ethereum/solidity/issues/10695).
+
+Example for loop:
+
+```Solidity
+for (uint i = 0; i < length; i++) {
+    // do something that doesn't change the value of i
+}
+```
+
+In this example, the for loop post condition, i.e., `i++` involves checked arithmetic, which is not required. This is because the value of i is always strictly less than `length <= 2**256 - 1`. Therefore, the theoretical maximum value of i to enter the for-loop body `is 2**256 - 2`. This means that the `i++` in the for loop can never overflow. Regardless, the overflow checks are performed by the compiler.
+
+Unfortunately, the Solidity optimizer is not smart enough to detect this and remove the checks. You should manually do this by:
+
+```Solidity
+for (uint i = 0; i < length; i = unchecked_inc(i)) {
+    // do something that doesn't change the value of i
+}
+
+function unchecked_inc(uint i) returns (uint) {
+    unchecked {
+        return i + 1;
+    }
+}
+```
+Or just:
+```Solidity
+for (uint i = 0; i < length;) {
+    // do something that doesn't change the value of i
+    unchecked { i++; }
+}
+```
+
+Note that it’s important that the call to `unchecked_inc` is inlined. This is only possible for solidity versions starting from `0.8.2`.
+
+Gas savings: roughly speaking this can save 30-40 gas per loop iteration. For lengthy loops, this can be significant!
+(This is only relevant if you are using the default solidity checked arithmetic.)
+
+* **`++i` costs less gas compared to `i++` or `i += 1`**
+
+`++i `costs less gas compared to `i++` or` i += 1` for unsigned integer, as pre-increment is cheaper (about 5 gas per iteration). This statement is true even with the optimizer enabled.
+
+Example:
+`i++` increments `i` and returns the initial value of `i`. Which means:
+```Solidity
+uint i = 1; 
+i++; // == 1 but i == 2 
+```
+But `++i` returns the actual incremented value:
+```Solidity
+uint i = 1; 
+++i; // == 2 and i == 2 too, so no need for a temporary variable 
+```
+In the first case, the compiler has to create a temporary variable (when used) for returning 1 instead of 2
+
+* **No need to explicitly initialize variables with default values**
+
+If a variable is not set/initialized, it is assumed to have the default value (0 for uint, false for bool, address(0) for address…). Explicitly initializing it with its default value is an anti-pattern and wastes gas.
+As an example:
+`for (uint256 i = 0; i < numIterations; ++i) {` 
+should be replaced with:
+`for (uint256 i; i < numIterations; ++i) {`
+
+* **Don't remove initialization of `i` varible in for loops**
+
+I see a lot of projects where developers mistakenly believe that the removal of `i` vatiable outside of the for loop will save gas. In following snippets you can see that this is wrong:
+
+```Solidity
+    function loopCheck1(uint256[] memory arr) external returns (uint256[] memory) {
+        gas = gasleft(); // 29863 gas
+        uint length = arr.length;
+        for (uint i; i < length;) {
+            unchecked { ++i; }
+        }
+        return arr;
+        gas -= gasleft();
+    }
+    
+    function loopCheck2(uint256[] memory arr) external  returns (uint256[] memory) {
+        gas = gasleft();
+        uint i;
+        uint length = arr.length;
+        for (; i < length;) { // 29912 gas
+            unchecked { ++i; }
+        }
+        return arr;
+        gas -= gasleft();
+    }
+```
+
+* **To sum up, the best gas optimized loop will be:**
+```Solidity
+uint length = arr.length;
+for (uint i; i < length;) {
+    unchecked { ++i; }
+}
+```

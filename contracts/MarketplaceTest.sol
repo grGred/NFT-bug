@@ -49,15 +49,15 @@ contract Rewardable { //@audit safeTransfer MEDIUM
             withdrawLastDeposit(user, reward.amount);
         }
 
-        delete _rewards[user]; // @audit-ok does it deletes?
+        delete _rewards[user]; // @audit-ok does it deletes - yes
     }
 
-    function payRewards(address user, Reward memory reward) internal { // @audit or calldata better?, GAS
+    function payRewards(address user, Reward memory reward) internal { // @audit-ok or calldata better - no, GAS
         uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, SEED))); // @audit block.timestamp for random and SWC-120, CRIT
         uint256 daysDelta = (block.timestamp - reward.timestamp) / 1 days; // @audit div 0, CRIT
 
         uint256 userReward = reward.amount / PCT_DENOMINATOR * (random % daysDelta); // @audit div 0, CRIT
-        if (userReward > 0) { // @audit gas? !=
+        if (userReward > 0) { // @audit-ok gas !=
             REWARD_TOKEN.rewardUser(user, userReward); // @audit extcall in for cycle GAS // @audit Try catch for ext call?? what if reverts SWC-113, MEDIUM
         }
     }
