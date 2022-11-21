@@ -6,7 +6,7 @@ The code under review can be found within the NFT-bug repository, and is compose
  
 ### **Summary**
  
-A total of 13 unique vulnerabilities. Of these vulnerabilities, 5 received a risk rating in the category of HIGH severity and 8 received a risk rating in the category of MEDIUM severity.
+A total of 14 unique vulnerabilities. Of these vulnerabilities, 5 received a risk rating in the category of HIGH severity and 9 received a risk rating in the category of MEDIUM severity.
 Additionally, I included 8 reports detailing issues with a risk rating of LOW severity or non-critical. There were also 5 reports recommending gas optimizations.
 ### **Classification of Issues**
  
@@ -80,7 +80,6 @@ See: [SWC-120](https://swcregistry.io/docs/SWC-120)
 ### **Recommended Mitigation Steps**
 * Using external sources of randomness via oracles, e.g. [Chainlink](https://docs.chain.link/vrf/v2/introduction). Note that this approach requires trusting in oracle, thus it may be reasonable to use multiple oracles.
 * Using [Gnosis chain for random](https://developers.gnosischain.com/for-developers/on-chain-random-numbers/randomness-faqs).
-
  
 ------
 
@@ -255,7 +254,7 @@ You can always add 1 day to `daysDelta`, or create an if statement in which you 
  
 ------
 
-# **Medium Risk Findings (8)**
+# **Medium Risk Findings (9)**
 
 ### **[M-01] DoS With Block Gas Limit**
 
@@ -488,9 +487,39 @@ Since the reward token is out of scope, I can only recommend you to follow call 
 In our case: if one of the calls fails - all user's deposits and rewards are stuck.
 
 ------
+
+### **[M-09] Possible to claim rewards for user**
+
+```Solidity
+contracts/Marketplace.sol
+42:     function claim(address user) external {
+```
+
+### **Impact**
+
+Any user can claim rewards and withdraw funds to other user. Even if the owner of the deposit doesn't want it.
+
+### **Proof of Concept**
+
+```Typescript
+            it('Should claim token FOR the other user', async () => {
+                await network.provider.send('evm_increaseTime', [Number(604800 * 3)]); // 3 weeks
+                await hre.network.provider.send('hardhat_mine', ['0x3e8']); // mine 1000 blocks
+
+                await marketplaceTest.connect(other).claim(wallet.address);
+            });
+```
+
+### **Recommended Mitigation Steps**
+ 
+Change `user` to `msg.sender`. If you want to have this functioanality it's recommended to create new function `claimFor` with additioanal checks.
+
+------
+
 # **Low Risk and Non-Critical Issues (8)**
 
 ### ***LOW RISK ISSUES***
+
 ----
  
 ### **[L-01] Important functions doesn't emit events**
@@ -503,6 +532,7 @@ See similar High-severity H03 finding OpenZeppelin’s Audit of Audius (https://
 ### **Recommended Mitigation Steps**
 
 Add events for `setForSale`, `discardFromSale`, `postponeSale`, `claim` functions.
+
 ------
  
 ### **[L-02] Any existing token can be discarded from sale**
@@ -567,6 +597,7 @@ error CannotPostponeOnZero();
 ...
 if (postponeSeconds == 0) revert CannotPostponeOnZero();
 ```
+
 ------
  
 ### **[L-04] InvalidSale() error used too often**
@@ -639,7 +670,9 @@ test/marketplace.spec.ts
 Remove `items[tokenId].seller == msg.sender` from the if condition.
  
 ------
+
 ### ***Non-Critical Issues***
+
 ----
  
 ### **[N-01] You can't sweep tokens that were sent to contract by mistake**

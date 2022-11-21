@@ -275,6 +275,13 @@ describe('Tests', () => {
                 await marketplaceTest.claim(wallet.address);
             });
 
+            it('Should claim token FOR the other user', async () => {
+                await network.provider.send('evm_increaseTime', [Number(604800 * 3)]); // 3 weeks
+                await hre.network.provider.send('hardhat_mine', ['0x3e8']); // mine 1000 blocks
+
+                await marketplaceTest.connect(other).claim(wallet.address);
+            });
+
             it('Should delete all the data after claim', async () => {
                 await network.provider.send('evm_increaseTime', [Number(604800 * 3)]); // 3 weeks
                 await hre.network.provider.send('hardhat_mine', ['0x3e8']); // mine 1000 blocks
